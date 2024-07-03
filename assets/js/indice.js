@@ -4,6 +4,7 @@ import THREE from './three.js';
 import camera from './Camera2.js';
 import renderer from './Render.js';
 import scene from './Screen.js';
+import lights from './Luzambiental.js';
 // const scene = new THREE.Scene();
 
 // const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -15,15 +16,15 @@ import scene from './Screen.js';
 // renderer.setSize( window.innerWidth, window.innerHeight );
 // document.body.appendChild( renderer.domElement );
 
-const lights = new THREE.AmbientLight( 0x404040 ); // soft white light
+// const lights = new THREE.AmbientLight( 0x404040 ); // soft white light
 
-const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
-directionalLight.position.set(-10,10,-10);
-lights.add(directionalLight);
+// const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.7 );
+// directionalLight.position.set(-10,10,-10);
+// lights.add(directionalLight);
 
-const directionalLight2 = new THREE.DirectionalLight( 0xffffff, 0.7 );
-directionalLight2.position.set(10,-10,10);
-lights.add(directionalLight2);
+// const directionalLight2 = new THREE.DirectionalLight( 0xffffff, 0.7 );
+// directionalLight2.position.set(10,-10,10);
+// lights.add(directionalLight2);
 
 const gridHelper = new THREE.GridHelper( 200, 50 );
 
