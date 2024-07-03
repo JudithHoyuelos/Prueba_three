@@ -1,8 +1,8 @@
 import THREE from './three.js';
 // import THREE from './path/to/three.js';
 // import { gsap } from '@vendor/gsap/gsap.min.js';
-import { OrbitControls } from '../vendor/three/examples/jsm/controls/OrbitControls.js';
-import { PointerLockControls } from '../vendor/three/examples/jsm/controls/PointerLockControls.js';
+// import { OrbitControls } from '../vendor/three/examples/jsm/controls/OrbitControls.js';
+// import { PointerLockControls } from '../vendor/three/examples/jsm/controls/PointerLockControls.js';
 import { GLTFLoader } from '../vendor/three/examples/jsm/loaders/GLTFLoader.js';
 // import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import camera from './Camera2.js';
@@ -42,14 +42,14 @@ window.addEventListener('resize', () => {
 });
 
 // Controles para hacer zoom, girar el objeto y moverlo con la camara
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.minDistance = 3;
-controls.maxDistance = 20;
-controls.enableDamping=true;
-controls.enablePan = false;
-controls.minPolarAngle = 0.5;
-controls.maxPolarAngle = 1.5;
-controls.autoRotate = false;
+// const controls = new OrbitControls(camera, renderer.domElement);
+// controls.minDistance = 3;
+// controls.maxDistance = 20;
+// controls.enableDamping=true;
+// controls.enablePan = false;
+// controls.minPolarAngle = 0.5;
+// controls.maxPolarAngle = 1.5;
+// controls.autoRotate = false;
 // controls.target.set(2, 1, 0);
 // controls.update();
 
@@ -474,7 +474,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.6;
 renderer.outputEncoding = THREE.sRGBEncodig;
 
-let controles = new PointerLockControls(camera, renderer.domElement);
+// let controles = new PointerLockControls(camera, renderer.domElement);
 
 let xdir = 0, zdir = 0
 
