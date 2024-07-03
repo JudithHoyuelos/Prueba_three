@@ -33,7 +33,6 @@ loader.load("assets/img/istockphoto-1303973122-170667a.jpg", function (texture) 
 });
 
 
-informacion;
 scene.background = new THREE.Color("black");
 scene.add(lights);
 scene.add(gridHelper);
@@ -45,3 +44,5 @@ function animate() {
 
     renderer.render(scene, camera);
 }
+
+animate()
