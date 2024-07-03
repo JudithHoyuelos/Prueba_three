@@ -5,6 +5,7 @@ import camera from './Camera2.js';
 import renderer from './Render.js';
 import scene from './Screen.js';
 import lights from './Luzambiental.js';
+import gridHelper from './Plane.js';
 // const scene = new THREE.Scene();
 
 // const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -26,7 +27,7 @@ import lights from './Luzambiental.js';
 // directionalLight2.position.set(10,-10,10);
 // lights.add(directionalLight2);
 
-const gridHelper = new THREE.GridHelper( 200, 50 );
+// const gridHelper = new THREE.GridHelper( 200, 50 );
 
 // Fondo con imagen 
 var loader = new THREE.TextureLoader();
