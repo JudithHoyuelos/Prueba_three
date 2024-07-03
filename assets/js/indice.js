@@ -1,13 +1,14 @@
 // import * as THREE from '../vendor/three/build/three.module.js';
 
 import THREE from './three.js';
+import camera from './Camera2.js';
 import scene from './Screen.js';
 // const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+// const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-camera.position.set(-0.23324931851256903, 1.8324140151651975, 0.2862530684020239);
-camera.lookAt(0, 1, -11);
+// camera.position.set(-0.23324931851256903, 1.8324140151651975, 0.2862530684020239);
+// camera.lookAt(0, 1, -11);
 
 const renderer = new THREE.WebGLRenderer({antialia: true});
 renderer.setSize( window.innerWidth, window.innerHeight );
