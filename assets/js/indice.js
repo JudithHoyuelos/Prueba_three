@@ -40,6 +40,12 @@ scene.background = new THREE.Color("black");
 scene.add(lights);
 scene.add(gridHelper);
 
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
 function animate() {
 
     requestAnimationFrame(animate);
