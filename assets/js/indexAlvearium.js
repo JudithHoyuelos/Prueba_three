@@ -42,14 +42,14 @@ window.addEventListener('resize', () => {
 });
 
 // Controles para hacer zoom, girar el objeto y moverlo con la camara
-// const controls = new OrbitControls(camera, renderer.domElement);
-// controls.minDistance = 3;
-// controls.maxDistance = 20;
-// controls.enableDamping=true;
-// controls.enablePan = false;
-// controls.minPolarAngle = 0.5;
-// controls.maxPolarAngle = 1.5;
-// controls.autoRotate = false;
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.minDistance = 3;
+controls.maxDistance = 20;
+controls.enableDamping=true;
+controls.enablePan = false;
+controls.minPolarAngle = 0.5;
+controls.maxPolarAngle = 1.5;
+controls.autoRotate = false;
 // controls.target.set(2, 1, 0);
 // controls.update();
 
