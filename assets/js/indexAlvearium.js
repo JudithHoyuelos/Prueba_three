@@ -172,38 +172,38 @@ function onClickUseCase(e) {
 }
 
 // // PRUEBA CARGAR MODELO 3D
-// let modelo = new GLTFLoader();
-// modelo.load(
-//     // resource URL
-//     'assets/mitadAlvea/AlveaWebOpt_1.glb',
-//     // 'assets/mitadAlvea/Alvea.glb',
-//     // 'assets/GLTF/AlveaPruebaGLTF.gltf',
-//     // called when the resource is loaded
-//     function (gltf) {
+let modelo = new GLTFLoader();
+modelo.load(
+    // resource URL
+    'assets/mitadAlvea/AlveaWebOpt_1.glb',
+    // 'assets/mitadAlvea/Alvea.glb',
+    // 'assets/GLTF/AlveaPruebaGLTF.gltf',
+    // called when the resource is loaded
+    function (gltf) {
 
-//         scene.add(gltf.scene);
-//         console.log('Modelo cargado correctamente.');
+        scene.add(gltf.scene);
+        console.log('Modelo cargado correctamente.');
 
-//         gltf.animations; // Array<THREE.AnimationClip>
-//         gltf.scene; // THREE.Group
-//         gltf.scenes; // Array<THREE.Group>
-//         gltf.cameras; // Array<THREE.Camera>
-//         gltf.asset; // Object
+        gltf.animations; // Array<THREE.AnimationClip>
+        gltf.scene; // THREE.Group
+        gltf.scenes; // Array<THREE.Group>
+        gltf.cameras; // Array<THREE.Camera>
+        gltf.asset; // Object
 
-//     },
-//     // called while loading is progressing
-//     function (xhr) {
+    },
+    // called while loading is progressing
+    function (xhr) {
 
-//         console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
-//     },
-//     // called when loading has errors
-//     function (error) {
+    },
+    // called when loading has errors
+    function (error) {
 
-//         console.log('An error happened', error);
+        console.log('An error happened', error);
 
-//     }
-// );
+    }
+);
 
 function onClickHotpoint(element) {
     // Obtén todas las referencias a los elementos de puntos y modales
