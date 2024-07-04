@@ -12,8 +12,8 @@
     "vite": "^5.2.8"
   },
   "scripts": {
-    "copy-libs": "node copy-libs.js",
-    "build": "npm run copy-libs && vite build",
-    "dev": "vite"
+    "copy-libs": "node scripts/copy-libs.js",
+    "build": "vite build",
+    "deploy": "npm run copy-libs && npm run build && gh-pages -d dist"
   }
 }

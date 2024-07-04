@@ -1,11 +1,12 @@
 import THREE from './three.js';
 // import THREE from './path/to/three.js';
 // import { gsap } from '@vendor/gsap/gsap.min.js';
-// import { OrbitControls } from '../vendor/three/examples/jsm/controls/OrbitControls.js';
-// import { PointerLockControls } from '../vendor/three/examples/jsm/controls/PointerLockControls.js';
-// import { GLTFLoader } from '../vendor/three/examples/jsm/loaders/GLTFLoader.js';
+import { OrbitControls } from '../vendor/three/examples/jsm/controls/OrbitControls.js';
+import { PointerLockControls } from '../vendor/three/examples/jsm/controls/PointerLockControls.js';
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTFLoader } from '../vendor/three/examples/jsm/loaders/GLTFLoader.js';
 // import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
-import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/loaders/GLTFLoader.js";
+// import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/loaders/GLTFLoader.js";
 import camera from './Camera2.js';
 import renderer from './Render.js';
 import scene from './Screen.js';
