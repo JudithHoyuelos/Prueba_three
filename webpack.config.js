@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './assets/js/indexAlvearium.js',  // Ruta al archivo principal de tu aplicación
+  entry: './assets/js/indiceAlvearium.js',  // Ruta al archivo principal de tu aplicación
   output: {
     filename: 'bundle.js',  // Nombre del archivo de salida
     path: path.resolve(__dirname, 'dist'),  // Carpeta de salida
