@@ -1,8 +1,19 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: './',
-  build: {
-    outDir: 'dist',
+  optimizeDeps: {
+    include: ['three']
   },
+  build: {
+    rollupOptions: {
+      external: [
+        'three'
+      ],
+      output: {
+        globals: {
+          three: 'THREE'
+        }
+      }
+    }
+  }
 });
