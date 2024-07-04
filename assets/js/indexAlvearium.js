@@ -5,7 +5,7 @@ import { OrbitControls } from '../vendor/three/examples/jsm/controls/OrbitContro
 import { PointerLockControls } from '../vendor/three/examples/jsm/controls/PointerLockControls.js';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // import { GLTFLoader } from '../vendor/three/examples/jsm/loaders/GLTFLoader.js';
-import { GLTFLoader } from './vendor/three/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from './vendor/three/examples/jsm/loaders/GLTFLoader';
 // import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 // import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/loaders/GLTFLoader.js";
 import camera from './Camera2.js';
