@@ -3,7 +3,7 @@ name: Build and Deploy with Webpack
 on:
   push:
     paths:
-      - '**/*.js'
+      - 'assets/js/indexAlvearium.js'
 
 jobs:
   build:
