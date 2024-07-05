@@ -1,0 +1,35 @@
+name: Build and Deploy with Webpack
+
+on:
+  push:
+    paths:
+      - '**/*.js'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.12.1'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build with Webpack
+      run: npm run build
+
+    - name: Deploy to the same branch
+      run: |
+        git config --global user.email "teresajudithhoyuelosolalla_7254@escuelaces.net"
+        git config --global user.name "JudithHoyuelos"
+        git checkout -b deploy
+        mv dist/* .
+        git add .
+        git commit -m "Deploying to GitHub Pages"
+        git push origin deploy:main --force
