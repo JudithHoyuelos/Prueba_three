@@ -479,7 +479,7 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 0.6;
 renderer.outputEncoding = THREE.sRGBEncodig;
 
-// let controles = new PointerLockControls(camera, renderer.domElement);
+let controles = new PointerLockControls(camera, renderer.domElement);
 
 let xdir = 0, zdir = 0
 
@@ -533,21 +533,21 @@ function animate() {
     requestAnimationFrame(animate);
 
 
-    // if (controles.isLocked === true) {
-    //     tiempoF = Date.now()
+    if (controles.isLocked === true) {
+        tiempoF = Date.now()
 
-    //     delta = (tiempoF - tiempoI) / 1000
+        delta = (tiempoF - tiempoI) / 1000
 
-    //     let xDis = xdir * vel * delta
-    //     let zDis = zdir * vel * delta
+        let xDis = xdir * vel * delta
+        let zDis = zdir * vel * delta
 
-    //     console.log(camera.position);
+        console.log(camera.position);
 
-    //     controles.moveRight(xDis)
-    //     controles.moveForward(zDis)
+        controles.moveRight(xDis)
+        controles.moveForward(zDis)
 
-    //     tiempoI = tiempoF
-    // }
+        tiempoI = tiempoF
+    }
 
     renderer.render(scene, camera);
 }
