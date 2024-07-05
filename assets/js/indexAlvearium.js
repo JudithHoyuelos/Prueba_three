@@ -15,11 +15,11 @@ import lights from './Luzambiental.js';
 import gridHelper from './Plane.js';
 
 // Verificar si GSAP está cargado correctamente
-// if (typeof gsap !== "undefined") {
-//     console.log("GSAP está cargado");
-// } else {
-//     console.error("GSAP no está cargado");
-// }
+if (typeof gsap !== "undefined") {
+    console.log("GSAP está cargado");
+} else {
+    console.error("GSAP no está cargado");
+}
 
 // Fondo con imagen 
 var loader = new THREE.TextureLoader();
