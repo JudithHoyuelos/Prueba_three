@@ -205,6 +205,8 @@ modelo.load(
 
         console.log('An error happened', error);
 
+    }, undefined, function (error) {
+        console.error(error);
     }
 );
 
