@@ -320,6 +320,8 @@ img {
 .roadmap-titulo {
     display: flex;
     margin-top: 2rem;
+    justify-content: center;
+    align-items: center;
 }
 
 .roadmap-years {
@@ -337,6 +339,8 @@ img {
 .roadmap-etiqueta {
     display: flex;
     flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .etiqueta-parrafo {
@@ -393,14 +397,14 @@ img {
 .etiqueta-roadmap {
     display: flex;
     /* background-color: var(--lavander); */
-    font-size: 10px;
+    font-size: 13px;
     border-radius: 30%;
     gap: 2rem;
     margin: 0.2rem;
 }
 
 .etiqueta-info {
-    width: 12rem;
+    width: 25rem;
 }
 
 /*------------ roadmap-carrusel ---------- */
@@ -436,7 +440,7 @@ img {
 
 .global-info .roadmap-contenedor-carrusel .roadmap-img img {
     width: 60%;
-    height: 12rem;
+    height: 13rem;
     vertical-align: top;
     margin-top: 1rem; /* cambio provisional para que pueda manejar la funcionalidad */
 }
@@ -842,8 +846,13 @@ a:hover {
     padding-right: 1rem;
 }
 
-.useCase-img img {
+.useCase-img div {
    width: 22rem;
+}
+
+#model-canvas-turismo, #model-canvas-patrimonio, #model-canvas-comercio, #model-canvas-delivery, #model-canvas-entretenimiento, #model-canvas-socializacion {
+    height: 22rem;
+    width: 22rem;
 }
 
 .useCase-comercio .useCase-turismo .useCase-entrenimiento{

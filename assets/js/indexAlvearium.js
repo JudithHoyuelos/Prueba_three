@@ -1,6 +1,6 @@
 import THREE from './three.js';
 // import THREE from './path/to/three.js';
-import { gsap } from '../vendor/gsap/gsap.min.js';
+// import { gsap } from '../vendor/gsap/gsap.min.js';
 import { OrbitControls } from '../vendor/three/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from '../vendor/three/examples/jsm/controls/PointerLockControls.js';
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -258,6 +258,12 @@ function onClickHotpoint(element) {
         if (element === pointElement) {
             const modalId = `info${pointId.replace('punto', '')}`;
             modals[modalId].style.display = '';
+            console.log(modals[modalId])
+            if (modals[modalId] === document.querySelector("#info8")) {
+                modal.style.width = '100%';
+            } else {
+                modal.style.width = '45%';
+            }
             if (logo) logo.style.left = '30%';
             if (menuHorizontal) menuHorizontal.style.left = '25%';
             
@@ -293,7 +299,7 @@ function onClickLogo(x, y, z, lookAtX, lookAtY, lookAtZ, initialPoints) {
         }
 
         gsap.to(camera.position, {
-            duration: 2,
+            duration: 5,
             x: x,
             y: y,
             z: z,
@@ -342,7 +348,7 @@ function onClick(x, y, z, lookAtX, lookAtY, lookAtZ, newPoints) {
 
 
         gsap.to(camera.position, {
-            duration: 2,
+            duration: 4,
             //-12.611046376873789
             x: x,
             y: y,

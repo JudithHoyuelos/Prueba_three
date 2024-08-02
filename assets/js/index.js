@@ -10,7 +10,7 @@ import renderer from './Render';
 import scene from './Screen';
 import lights from './Luzambiental';
 import gridHelper from './Plane';
-import informacion from './Modal';
+// import informacion from './Modal';
 // import { Token } from './Moneda';
 
 // Fondo con imagen 
@@ -23,7 +23,7 @@ loader.load("assets/img/istockphoto-1303973122-170667a.jpg", function (texture) 
 });
 
 
-informacion;
+// informacion;
 scene.background = new THREE.Color("black");
 scene.add(lights);
 scene.add(gridHelper);
@@ -56,7 +56,40 @@ controls.update();
 let modelo = new GLTFLoader();
 modelo.load(
 	// resource URL
-	'assets/GLTF/AlveaPruebaGLTF.gltf',
+	// 'assets/GLTF/AlveaPruebaGLTF.gltf',
+    'assets/mitadAlvea/AlveaWebOpt_1.glb',
+    //'assets/GLTF/Alvea.gltf',
+	// called when the resource is loaded
+	function ( gltf ) {
+
+		scene.add( gltf.scene );
+        console.log('Modelo cargado correctamente.');
+
+		gltf.animations; // Array<THREE.AnimationClip>
+		gltf.scene; // THREE.Group
+		gltf.scenes; // Array<THREE.Group>
+		gltf.cameras; // Array<THREE.Camera>
+		gltf.asset; // Object
+
+	},
+	// called while loading is progressing
+	function ( xhr ) {
+
+		console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+	},
+	// called when loading has errors
+	function ( error ) {
+
+		console.log( 'An error happened' );
+
+	}
+);
+
+modelo.load(
+	// resource URL
+	// 'assets/GLTF/AlveaPruebaGLTF.gltf',
+    'assets/mitadAlvea/prueba.glb',
     //'assets/GLTF/Alvea.gltf',
 	// called when the resource is loaded
 	function ( gltf ) {
@@ -87,26 +120,26 @@ modelo.load(
 
 // Cargar DRACOLoader
 
-// let moneda = new GLTFLoader();
-// const dracoLoader = new DRACOLoader();
+let moneda = new GLTFLoader();
+const dracoLoader = new DRACOLoader();
 // dracoLoader.setDecoderPath('/examples/jsm/libs/draco/'); // Asegúrate de tener los archivos de Draco en la ruta adecuada
-// dracoLoader.preload();
+dracoLoader.preload();
 // moneda.setDRACOLoader( dracoLoader );
 
-// // Cargar el modelo glTF
-// moneda.load(
-//     'assets/img/token.gltf',
-//     function (gltf) {
-//         scene.add(gltf.scene);
-//         console.log('Modelo cargado correctamente.');
-//     },
-//     function (xhr) {
-//         console.log((xhr.loaded / xhr.total * 100) + '% cargado');
-//     },
-//     function (error) {
-//         console.error('Ocurrió un error al cargar el modelo:', error);
-//     }
-// );
+// Cargar el modelo glTF
+moneda.load(
+    'assets/mitadAlvea/prueba.glb',
+    function (gltf) {
+        scene.add(gltf.scene);
+        console.log('Modelo cargado correctamente.');
+    },
+    function (xhr) {
+        console.log((xhr.loaded / xhr.total * 100) + '% cargado');
+    },
+    function (error) {
+        console.error('Ocurrió un error al cargar el modelo:', error);
+    }
+);
 
 
 
