@@ -8,6 +8,8 @@ import { PointerLockControls } from '../vendor/three/examples/jsm/controls/Point
 import { GLTFLoader } from '../vendor/three/examples/jsm/loaders/GLTFLoader.js';
 // import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 // import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js";
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js'; // Cargador para archivos EXR
 import camera from './Camera2.js';
 import renderer from './Render.js';
 import scene from './Screen.js';
@@ -29,6 +31,22 @@ var loader = new THREE.TextureLoader();
 loader.load("assets/img/istockphoto-1303973122-170667a.jpg", function (texture) {
     scene.background = texture;
 });
+
+// PRUEBA PARA LA ILUMINACION
+// Cargar el EXR para la iluminación sin mostrarlo como fondo
+const exrLoader = new EXRLoader();
+exrLoader.setPath('assets/mitadAlvea/'); // Cambia esta ruta según tu estructura de carpetas
+exrLoader.load('evening_field_1k.exr', (texture) => {
+    texture.mapping = THREE.EquirectangularReflectionMapping; // Configurar mapeo de reflexión
+    scene.environment = texture; // Establecer solo como entorno de iluminación
+    // No establecemos scene.background para que no se vea el EXR
+});
+
+// const rgbeLoader = new RGBELoader();
+// rgbeLoader.load('assets/mitadAlvea/evening_field_4k.hdr', (texture) => {
+//     texture.mapping = THREE.EquirectangularReflectionMapping;
+//     scene.environment = texture;
+// });
 
 
 scene.background = new THREE.Color("black");
@@ -176,10 +194,19 @@ function onClickUseCase(e) {
 
 // // PRUEBA CARGAR MODELO 3D
 let modelo = new GLTFLoader();
+// Configurar el GLTFLoader con DRACOLoader
+const dracoLoader = new DRACOLoader();
+
+// Establecer la ruta a los archivos decodificadores de Draco
+dracoLoader.setDecoderPath('assets/vendor/three/examples/jsm/libs/draco/'); // Cambia esta ruta según tu estructura de carpetas
+
+// Asignar el DRACOLoader al GLTFLoader
+modelo.setDRACOLoader(dracoLoader);
+
 modelo.load(
     // resource URL
-    'assets/mitadAlvea/AlveaWebOpt_1.glb',
-    // 'assets/mitadAlvea/Alvea.glb',
+    // 'assets/mitadAlvea/AlveaWebOpt_1.glb',
+    'assets/mitadAlvea/Alvea.glb',
     // 'assets/GLTF/AlveaPruebaGLTF.gltf',
     // called when the resource is loaded
     function (gltf) {
@@ -454,6 +481,37 @@ function updateAnnotationPosition() {
     const newPositionsIzquierda = [position5, position6, position7];
     const newPositionsAbajo = [position11, position12, position13];
     const arriba = document.querySelector("#useCase");
+
+    // // Salvar las posiciones de los puntos 
+    // function savePointsToLocalStorage() {
+    //     localStorage.setItem('newPositionsDerecha', JSON.stringify(newPositionsDerecha));
+    //     localStorage.setItem('newPositionsIzquierda', JSON.stringify(newPositionsIzquierda));
+    //     localStorage.setItem('newPositionsAbajo', JSON.stringify(newPositionsAbajo));
+    //     localStorage.setItem('arriba', JSON.stringify(arriba));
+    // }
+
+    // // Guardar los arrays en localStorage
+    // savePointsToLocalStorage();
+
+    // Función para preparar un array de posiciones para almacenamiento
+    function prepareArrayForStorage(array) {
+        return array.map(pos => ({
+            x: pos.x,
+            y: pos.y,
+            element: pos.element ? { id: pos.element.id, selector: pos.element.id ? `#${pos.element.id}` : null } : null,
+        }));
+    }
+
+    // Guardar los arrays por separado con sus nombres
+    function saveArrayToLocalStorage(array, arrayName) {
+        const preparedArray = prepareArrayForStorage(array);
+        localStorage.setItem(arrayName, JSON.stringify(preparedArray));
+    }
+
+    // Guardar cada array en localStorage
+    saveArrayToLocalStorage(newPositionsDerecha, 'newPositionsDerecha');
+    saveArrayToLocalStorage(newPositionsIzquierda, 'newPositionsIzquierda');
+    saveArrayToLocalStorage(newPositionsAbajo, 'newPositionsAbajo');
     
     // Add events to each annotation with their respective camera positions and lookAt positions
     addAnnotationEvents(position1, 39, -35, 0.6201922849652849, 1.8324140151651975, 2.5258305164814105, -6, 1, -4, newPositionsAbajo);
@@ -479,6 +537,293 @@ document.addEventListener('DOMContentLoaded', (event) => {
     updateAnnotationPosition();
 });
 
+// Funcionamiento del menu lateral desde otras paguinas
+
+// // Salvar las posiciones de los puntos 
+// function savePointsToLocalStorage() {
+//     localStorage.setItem('newPositionsDerecha', JSON.stringify(newPositionsDerecha));
+//     localStorage.setItem('newPositionsIzquierda', JSON.stringify(newPositionsIzquierda));
+//     localStorage.setItem('newPositionsAbajo', JSON.stringify(newPositionsAbajo));
+//     localStorage.setItem('arriba', JSON.stringify(arriba));
+// }
+
+// Función para reconstruir un array de posiciones desde el almacenamiento
+function reconstructArrayFromStorage(arrayName) {
+    const storedArray = JSON.parse(localStorage.getItem(arrayName)) || [];
+    return storedArray.map(pos => ({
+        x: pos.x,
+        y: pos.y,
+        element: pos.element ? document.querySelector(pos.element.selector) : null,
+    }));
+}
+
+//Recojo las posiciones de los puntos
+function loadPointsFromLocalStorage() {
+    const newPositionsDerecha = reconstructArrayFromStorage('newPositionsDerecha');
+    const newPositionsIzquierda = reconstructArrayFromStorage('newPositionsIzquierda');
+    const newPositionsAbajo = reconstructArrayFromStorage('newPositionsAbajo');
+    // const arriba = JSON.parse(localStorage.getItem('arriba')) || [];
+
+    return {
+        newPositionsDerecha,
+        newPositionsIzquierda,
+        newPositionsAbajo,
+        // arriba,
+    };
+}
+
+
+// // Recuperar los arrays guardados
+// const recoveredInitialPoints = reconstructArrayFromStorage('newPositionsAbajo');
+// const recoveredNewPositionsDerecha = reconstructArrayFromStorage('newPositionsDerecha');
+// const recoveredNewPositionsIzquierda = reconstructArrayFromStorage('newPositionsIzquierda');
+
+// // Usar los arrays recuperados
+// console.log(recoveredInitialPoints, recoveredNewPositionsDerecha, recoveredNewPositionsIzquierda);
+
+// Función para mover la cámara a una posición específica y ocultar los puntos con el menu
+function onClickMenuLateral(x, y, z, lookAtX, lookAtY, lookAtZ, newPoints) {
+    console.log(x)
+    console.log(y)
+    console.log(z)
+    console.log(lookAtX)
+    console.log(lookAtY)
+    console.log(lookAtZ)
+    console.log(newPoints)
+    console.log(initialPoints)
+    console.log('he entarado')
+    return function(event) {
+        console.log('he entarado')
+        const logo = document.querySelector('#inicio');
+        const arriba = document.querySelector("#useCase");
+        
+        // Ocultar los puntos actuales antes de mover la cámara
+        // if (currentPoints[0] == arriba) {
+        //     console.log('modal desaparece');
+        //     arriba.style.display = 'none';
+        // } else {
+            // Ocultar los puntos antiguos antes de mover la cámara
+            initialPoints.forEach(point => {
+                if (point.element) {
+                    point.element.style.display = 'none';
+                }
+            });
+        // }
+
+
+        gsap.to(camera.position, {
+            duration: 4,
+            //-12.611046376873789
+            x: x,
+            y: y,
+            z: z,
+            onUpdate: function () {
+                camera.lookAt(lookAtX, lookAtY, lookAtZ);
+            },
+            onComplete: function() {
+                // Mostrar los nuevos puntos después de que la cámara haya terminado de moverse
+                if (newPoints === arriba) {
+                    arriba.style.display = '';
+                    currentPoints = [arriba];
+                    console.log(currentPoints)
+                    arriba.addEventListener('click', onClickUseCase);
+                    if (logo) {
+                        logo.style.display = '';
+                        logo.addEventListener('click', onClickLogo(-0.23324931851256903, 1.8324140151651975, 0.2862530684020239, 0, 1, -11, initialPoints));
+                    }
+                } else {
+                    newPoints.forEach(point => {
+                        if (point.element) {
+                            point.element.style.display = '';
+                            // Añadir evento de click para mostrar el modal
+                            point.element.addEventListener('click', (e) => {
+                                onClickHotpoint(point.element, point.info);
+                            });
+                        }
+                    });
+                    currentPoints = newPoints;
+                    if (logo) {
+                        logo.style.display = '';
+                        logo.addEventListener('click', onClickLogo(-0.23324931851256903, 1.8324140151651975, 0.2862530684020239, 0, 1, -11, initialPoints));
+                    }
+                }
+            }
+        });
+    };
+}
+
+
+//Función para mover la cámara y mostrar los puntos
+function moveCameraAndShowPoints() {
+    // Verifica si hay datos en el localStorage
+
+    console.log('verificando la memoria interna al recargar')
+    const cameraPosition = localStorage.getItem('cameraPosition');
+    const cameraLookAt = localStorage.getItem('cameraLookAt');
+    let points = localStorage.getItem('points');
+    // Limpia las comillas u otros caracteres extraños del valor
+    points = points ? points.replace(/["']/g, '').trim() : ''; // Elimina comillas dobles, simples y espacios en blanco
+    const arriba = document.querySelector("#useCase");
+    console.log(points)
+
+    // Normalizar a minúsculas para evitar problemas de comparación
+    points = points.toLowerCase();
+
+    console.log('Valor de points recuperado:', points); // Muestra el valor exacto de points
+
+    // Cargar los puntos desde localStorage
+    const { newPositionsDerecha, newPositionsIzquierda, newPositionsAbajo} = loadPointsFromLocalStorage();
+    console.log(newPositionsDerecha, newPositionsIzquierda, newPositionsAbajo, arriba)
+
+    // Solo ejecuta si los datos están presentes
+    if (cameraPosition && cameraLookAt && points) {
+        console.log('se han guardado los datos')
+        const cameraPos = JSON.parse(cameraPosition);
+        const lookAt = JSON.parse(cameraLookAt);
+
+        //Mueve la cámara a las posiciones guardadas
+        // console.log('moviendo camara')
+        // camera.position.set(cameraPos.x, cameraPos.y, cameraPos.z);
+        // camera.lookAt(lookAt.lookAtX, lookAt.lookAtY, lookAt.lookAtZ);
+
+        const cadena = points.split("", 3);
+        console.log(cadena);
+        // cadena.trim();
+        // console.log(cadena);
+        const cadena1 = "newPositionsDerecha"
+        const cadena2 = cadena1.split("", 3);
+        console.log(cadena2);
+        console.log(`points === "newPositionsDerecha":`, cadena === cadena2);
+
+        // Comparaciones detalladas para identificar diferencias
+        console.log('Comparación detallada:');
+        console.log(`points === "newPositionsDerecha":`, points === "newpositionsderecha");
+        console.log(`points === "arriba":`, points === "arriba");
+        console.log(`points === "newPositionsAbajo":`, points === "newpositionsabajo");
+        console.log(`points === "newPositionsIzquierda":`, points === "newpositionsizquierda");
+
+        // Normaliza el texto a minúsculas sin espacios para asegurar coincidencia
+        const normalizedPoints = points.toLowerCase().trim();
+        console.log('Valor normalizado:', normalizedPoints);
+
+        // Muestra los puntos correspondientes
+        switch (points) {
+            case "newpositionsderecha": 
+                console.log('moviendo al apartado sobre nosotrso')
+                onClickMenuLateral(cameraPos.x, cameraPos.y, cameraPos.z, lookAt.lookAtX, lookAt.lookAtY, lookAt.lookAtZ, newPositionsDerecha)();
+                break;
+            case "arriba":
+                onClickMenuLateral(cameraPos.x, cameraPos.y, cameraPos.z, lookAt.lookAtX, lookAt.lookAtY, lookAt.lookAtZ, arriba)();
+                break;
+            case "newpositionsabajo":
+                onClickMenuLateral(cameraPos.x, cameraPos.y, cameraPos.z, lookAt.lookAtX, lookAt.lookAtY, lookAt.lookAtZ, newPositionsAbajo)();
+                break;
+            case "newpositionsizquierda":
+                onClickMenuLateral(cameraPos.x, cameraPos.y, cameraPos.z, lookAt.lookAtX, lookAt.lookAtY, lookAt.lookAtZ, newPositionsIzquierda)();
+                break;
+            default:
+                // Muestra el valor exacto si no coincide con ninguno de los casos
+                console.log('Ningún caso coincidió con los puntos recuperados. Valor de points:', points);
+                break;
+        }
+
+        // Limpia los datos del localStorage después de usarlos
+        localStorage.removeItem('cameraPosition');
+        localStorage.removeItem('cameraLookAt');
+        localStorage.removeItem('points');
+    } else {
+        console.log('Datos incompletos o ausentes en localStorage.');
+    }
+}
+
+// Función para mover la cámara y mostrar los puntos guardados en localStorage
+// function moveCameraAndShowPoints() {
+//     // Verifica si hay datos guardados en localStorage
+//     console.log('verificando la memoria interna al recargar')
+//     const cameraPosition = localStorage.getItem('cameraPosition');
+//     const cameraLookAt = localStorage.getItem('cameraLookAt');
+//     const pointsKey = localStorage.getItem('points');
+
+//     // Solo ejecuta si los datos están presentes
+//     if (cameraPosition && cameraLookAt && pointsKey) {
+//         console.log('se han guardado los datos')
+//         const cameraPos = JSON.parse(cameraPosition);
+//         const lookAt = JSON.parse(cameraLookAt);
+
+//         // Mueve la cámara a las posiciones guardadas
+//         onClick(cameraPos.x, cameraPos.y, cameraPos.z, lookAt.lookAtX, lookAt.lookAtY, lookAt.lookAtZ, window[pointsKey]);
+//         console.log('moviendo camara')
+
+//         // Limpia los datos del localStorage después de usarlos
+//         localStorage.removeItem('cameraPosition');
+//         localStorage.removeItem('cameraLookAt');
+//         localStorage.removeItem('points');
+//     }
+// }
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     // Recuperar los valores desde localStorage
+//     const cameraPosition = JSON.parse(localStorage.getItem('cameraPosition'));
+//     const cameraLookAt = JSON.parse(localStorage.getItem('cameraLookAt'));
+//     const activePointsIds = JSON.parse(localStorage.getItem('activePoints')) || [];
+
+//     // Si hay una posición de cámara guardada, configúrala
+//     if (cameraPosition && cameraLookAt) {
+//         camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+//         camera.lookAt(cameraLookAt.x, cameraLookAt.y, cameraLookAt.z);
+//     }
+
+//     // Mostrar solo los puntos activos guardados
+//     activePointsIds.forEach(id => {
+//         const point = document.getElementById(id);
+//         if (point) {
+//             point.style.display = ''; // Asegúrate de que los puntos estén visibles
+//         }
+//     });
+
+//     // Llamar a tu función para añadir eventos a los puntos si es necesario
+//     updateAnnotationPosition();
+
+//     // Limpia el estado guardado después de usarlo
+//     localStorage.removeItem('cameraPosition');
+//     localStorage.removeItem('cameraLookAt');
+//     localStorage.removeItem('activePoints');
+// });
+
+// En tu script principal donde manejas la escena y los puntos
+// window.moveCameraAndShowPoints = function(cameraX, cameraY, cameraZ, lookAtX, lookAtY, lookAtZ, newPoints) {
+//     // Mueve la cámara a la posición deseada
+//     camera.position.set(cameraX, cameraY, cameraZ);
+//     camera.lookAt(lookAtX, lookAtY, lookAtZ);
+
+//     // Oculta todos los puntos actuales antes de mostrar los nuevos
+//     currentPoints.forEach(point => {
+//         if (point.element) point.element.style.display = 'none';
+//     });
+
+//     // Muestra los nuevos puntos y actualiza currentPoints
+//     newPoints.forEach(point => {
+//         if (point.element) point.element.style.display = '';
+//     });
+
+//     // Actualiza currentPoints a los nuevos puntos mostrados
+//     currentPoints = newPoints;
+
+//     // Llama a la función de actualización si es necesario
+//     updateAnnotationPosition();
+// };
+
+// function onClick2(cameraX, cameraY, cameraZ, lookAtX, lookAtY, lookAtZ, oldPoints, newPoints) {
+//     return function () {
+//         // Mueve la cámara y actualiza los puntos visibles
+//         moveCameraAndShowPoints(cameraX, cameraY, cameraZ, lookAtX, lookAtY, lookAtZ, newPoints);
+//     };
+// }
+
+
+// Llama a la función cuando la página principal se cargue
+document.addEventListener('DOMContentLoaded', moveCameraAndShowPoints);
+
 
 // ajustes en el renderizador de la imagen para el fondo en 4k
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -489,9 +834,9 @@ let controles = new PointerLockControls(camera, renderer.domElement);
 
 let xdir = 0, zdir = 0
 
-// document.onclick = () => {
-//     controles.lock();
-// }
+document.onclick = () => {
+    controles.lock();
+}
 
 document.addEventListener('keydown', (e) => {
     switch (e.keyCode) {
